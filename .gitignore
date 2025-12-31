@@ -1,32 +1,27 @@
-*.swp
-*.*~
-project.lock.json
-.DS_Store
-*.pyc
-nupkg/
+# Build output
+bin/
+obj/
  
-# Visual Studio Code
-.vscode
- 
-# User-specific files
-*.suo
+# Visual Studio
+.vs/
 *.user
+*.suo
 *.userosscache
 *.sln.docstates
  
-# Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-build/
-bld/
-[Bb]in/
-[Oo]bj/
-[Oo]ut/
-msbuild.log
-msbuild.err
-msbuild.wrn
-/.vs
+# ASP.NET Core secrets
+appsettings.json
+appsettings.Development.json
+appsettings.Staging.json
+appsettings.Production.json
+ 
+# Logs
+*.log
+logs/
+ 
+# Publish
+publish/
+ 
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,90 @@
+﻿@model Hms.WebApp.Models.Account.AuthModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - HMS</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/responsive.css" rel="stylesheet" />
+    <link href="~/css/account/login.css" rel="stylesheet" />
+    <script src="~/lib/toaster/toastr.min.js"></script>
+</head>
+<body>
+    <div class="login-container container-responsive" style="">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="fas fa-hospital-user"></i>
+                </div>
+                <h2>Welcome Back</h2>
+                <p>Sign in to continue to HMS</p>
+            </div>
+
+            <div class="login-body" style="margin-top: -27px">
+                <form id="loginForm" asp-action="Login" asp-controller="Account" method="post">
+                    <input type="hidden" asp-for="ReturnUrl" />
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">
+                            <i class="fas fa-envelope me-1"></i> Email Address
+                        </label>
+                        <input asp-for="Email" class="form-control" placeholder="Enter your email" autocomplete="username" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                        <label asp-for="Password" class="form-label">
+                            <i class="fas fa-lock me-1"></i> Password
+                        </label>
+                        <input asp-for="Password"
+                               type="password"
+                               class="form-control pe-5"
+                               placeholder="Enter your password"
+                               id="passwordInput"
+                               autocomplete="current-password" />
+                        <i class="fas fa-eye position-absolute top-50 end-0 translate-middle-y me-3 toggle-password-icon mt-3"
+                           id="toggleIcon"
+                           style="cursor: pointer; z-index: 10; font-size: 16px; color: #6c757d;"></i>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between  align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="form-check checkbox">
+                                <input class="form-check-input bulk-action-checkbox" type="checkbox" id="rememberMeCheckbox">
+                                <label for="rememberMeCheckbox" class="fw-normal text-dark mt-2 m-3">Remember me</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-login" id="loginBtn">
+                        <span class="spinner-border spinner-border-sm d-none me-2" id="loginSpinner"></span>
+                        <span id="loginText">Sign In</span>
+                    </button>
+
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+
+                    @* <a class="btn btn-register" id="login-btn">
+                        Create New Account
+                    </a> *@
+
+                    <a href="/Account/Register" class="btn btn-register" id="login-btn">Create New Account</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/account/login.js"></script>

@@ -1,0 +1,167 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 50%;
+    padding: 20px;
+}
+
+.register-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+.register-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    padding: 40px 30px;
+    text-align: center;
+    color: white;
+}
+
+.register-logo {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.register-body {
+    padding: 35px 30px;
+}
+
+.form-label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form-control {
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.input-group {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    border: none;
+    background: transparent;
+    padding: 0 15px;
+    color: #667eea;
+}
+
+.btn-register {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    color: white;
+    font-weight: 600;
+}
+
+.btn-register {
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    padding: 12px;
+    background: white;
+    color: #667eea;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .divider span {
+        padding: 0 10px;
+        font-size: 13px;
+    }
+
+/* Smaller checkbox */
+
+.form-check-input {
+    width: 4px;
+    height: 4px;
+    cursor: pointer;
+}
+
+
+.text-danger {
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
+    min-height: 18px; /* Reserve space for error messages */
+}
+
+/* Required asterisk */
+.form-label .text-danger {
+    display: inline;
+    margin-top: 0;
+    min-height: 0;
+}
+
+/* Adjust register card width for better layout */
+.register-container {
+    width: 100%;
+    max-width: 600px; /* Fixed width instead of 50% */
+    padding: 20px;
+}
+
+/* Form alignment */
+.register-body {
+    padding: 30px;
+}
+
+/* Password field icons - ensure proper positioning */
+.position-relative {
+    position: relative;
+}
+
+.toggle-password-icon {
+    cursor: pointer;
+    z-index: 10;
+    font-size: 16px;
+    color: #6c757d;
+}
+
+a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: #764ba2;
+        text-decoration: underline;
+    }

@@ -1,0 +1,72 @@
+﻿@model Hms.WebApp.Models.Account.TwoFactorAuthModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Two-Factor Authentication - HMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/account/login.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h2>Two-Factor Authentication</h2>
+                <p>Enter the 6-digit code sent to <strong>@Model.Email</strong></p>
+            </div>
+
+            <div class="login-body">
+                <form id="twoFactorForm">
+                    <input type="hidden" id="token" value="@Model.Token" />
+                    <input type="hidden" id="email" value="@Model.Email" />
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-key me-1"></i> Access Code
+                        </label>
+                        <input type="text"
+                               id="accessCode"
+                               class="form-control text-center"
+                               placeholder="000000"
+                               maxlength="6"
+                               autocomplete="off"
+                               style="font-size: 24px; letter-spacing: 10px;" />
+                        <span class="text-danger" id="accessCodeError"></span>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Code valid for <strong>@Model.TimeValid seconds</strong>
+                    </div>
+
+                    <button type="submit" class="btn btn-login w-100" id="verifyBtn">
+                        <span class="spinner-border spinner-border-sm d-none me-2"></span>
+                        Verify Code
+                    </button>
+
+                    <div class="text-center mt-3">
+                        <button type="button" class="btn btn-link" id="resendBtn">
+                            Didn't receive code? <strong>Resend</strong>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/common.js"></script>
+</body>
+</html>
+<script src="~/js/account/twofactorauth.js"></script>

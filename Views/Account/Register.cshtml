@@ -1,0 +1,125 @@
+﻿@model Hms.WebApp.Models.Account.RegisterViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register - HMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/responsive.css" rel="stylesheet" />
+    <link href="~/css/account/register.css" rel="stylesheet" />
+    <link href="~/lib/toaster/toastr.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/toaster/toastr.min.js"></script>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-header">
+                <div class="register-logo">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h2>Create Account</h2>
+                <p>Register to access HMS</p>
+            </div>
+            <div class="register-body">
+                <form id="registerForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FirstName" class="form-label">First Name <span class="text-danger">*</span></label>
+                            <input asp-for="FirstName" class="form-control" placeholder="First name" />
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="LastName" class="form-label">Last Name <span class="text-danger">*</span></label>
+                            <input asp-for="LastName" class="form-control" placeholder="Last name" />
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                        <input asp-for="Email" class="form-control" placeholder="Email address" />
+                        <span class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Password" class="form-label">
+                                <i class="fas fa-lock me-1"></i> Password <span class="text-danger">*</span>
+                            </label>
+                            <div class="position-relative">
+                                <input asp-for="Password"
+                                       type="password"
+                                       class="form-control pe-5"
+                                       placeholder="Enter password"
+                                       id="passwordInput"
+                                       autocomplete="new-password" />
+                                <i class="fas fa-eye position-absolute top-50 end-0 translate-middle-y me-3 toggle-password-icon"
+                                   id="toggleIconPassword"
+                                   style="cursor: pointer; z-index: 10; font-size: 16px; color: #6c757d;"></i>
+                            </div>
+                            <span class="text-danger" id="passwordError"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="ConfirmPassword" class="form-label">
+                                <i class="fas fa-lock me-1"></i> Confirm Password <span class="text-danger">*</span>
+                            </label>
+                            <div class="position-relative">
+                                <input asp-for="ConfirmPassword"
+                                       type="password"
+                                       class="form-control pe-5"
+                                       placeholder="Confirm password"
+                                       id="confirmPasswordInput"
+                                       autocomplete="new-password" />
+                                <i class="fas fa-eye position-absolute top-50 end-0 translate-middle-y me-3 toggle-password-icon"
+                                   id="toggleIconConfirm"
+                                   style="cursor: pointer; z-index: 10; font-size: 16px; color: #6c757d;"></i>
+                            </div>
+                            <span class="text-danger" id="confirmError"></span>
+                        </div>
+                    </div>
+
+                    <!-- Terms -->
+                    <div class="align-items-center mb-3">
+                        <input class="form-check-input me-2" type="checkbox" id="agreeCheckbox">
+                        <label for="agreeCheckbox" class="fw-normal text-dark mb-0 mt-2">
+                            I agree to Terms & Conditions
+                        </label>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="button" class="btn btn-register w-100" id="registerBtn">
+                        <span class="spinner-border spinner-border-sm d-none me-2"></span>
+                        Create Account
+                    </button>
+
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+
+                    <div class="text-center">
+                        <a asp-action="Login" asp-controller="Account" class="text-decoration-none">
+                            Already have an account? <strong>Sign In</strong>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/account/register.js"></script>
+<script src="~/js/common.js"></script>

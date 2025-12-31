@@ -1,0 +1,314 @@
+﻿@using Hms.WebApp.Extensions;
+@{
+    var userName = User?.FindFirst("name")?.Value ?? "User";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - HMS</title>
+
+    <link href="~/css/responsive.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Your Theme CSS -->
+    <link href="~/css/theme.css" rel="stylesheet" />
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <!-- Toaster -->
+    <script src="~/lib/toaster/toastr.min.js"></script>
+
+</head>
+
+<body>
+    <div class="layout-wrapper">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <!-- Brand Logo -->
+            <div class="sidebar-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-hospital-user"></i>
+                </div>
+                <span class="brand-text">HMS</span>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    @using Hms.WebApp.Constants
+@using Hms.WebApp.Models.RolesPermissions
+                    @{
+                        var permissions = ViewBag.Permissions as PermissionsViewModel;
+                    }
+
+                    @* Dashboard *@
+                    @if (permissions?.CanAccessDashboard == true)
+                    {
+                        <li class="nav-item">
+                            <a href="/Dashboard/Index" class="nav-link" data-page="Dashboard">
+                                <div class="nav-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <span class="nav-text">Dashboard</span>
+                            </a>
+                        </li>
+                    }
+
+                    @* Patients *@
+                    @if (permissions?.CanAccessPatients == true)
+                    {
+                        <li class="nav-item">
+                            <a href="/Patient/Index" class="nav-link" data-page="Patient">
+                                <div class="nav-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <span class="nav-text">Patients</span>
+                            </a>
+                        </li>
+                    }
+
+                    @* Appointments *@
+                    @if (permissions?.CanAccessAppointments == true)
+                    {
+                        <li class="nav-item">
+                            <a href="/Appointment/Index" class="nav-link" data-page="Appointment">
+                                <div class="nav-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <span class="nav-text">Appointments</span>
+                            </a>
+                        </li>
+                    }
+
+                    @* Doctors *@
+                    @if (permissions?.CanAccessDoctors == true)
+                    {
+                        <li class="nav-item">
+                            <a href="/Doctor/Index" class="nav-link" data-page="Doctor">
+                                <div class="nav-icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <span class="nav-text">Doctors</span>
+                            </a>
+                        </li>
+                    }
+
+                    @* Departments *@
+                    @if (permissions?.CanAccessDepartments == true)
+                    {
+                        <li class="nav-item">
+                            <a href="/Department/Index" class="nav-link" data-page="Department">
+                                <div class="nav-icon">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <span class="nav-text">Departments</span>
+                            </a>
+                        </li>
+                    }
+
+                    @* Reports *@
+                    @if (permissions?.CanAccessReports == true)
+                    {
+                        <li class="nav-item">
+                            <a href="/Report/Index" class="nav-link" data-page="Report">
+                                <div class="nav-icon">
+                                    <i class="fas fa-file-medical"></i>
+                                </div>
+                                <span class="nav-text">Reports</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <div class="user-info-compact">
+                    <img src="https://ui-avatars.com/api/?name=@userName&background=667eea&color=fff"
+                         alt="User" class="user-avatar-small" />
+                    <div class="user-details-small">
+                        <span class="user-name-small">@userName</span>
+                        <span class="user-role-small">Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content" id="mainContent">
+            <!-- TOP HEADER -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="page-title">
+                        <h5 class="mb-0">@ViewData["Title"]</h5>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <!-- Search -->
+                    <div class="header-search">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Search..." />
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="header-item dropdown">
+                        <button class="icon-button" data-bs-toggle="dropdown">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end notification-dropdown">
+                            <li class="dropdown-header">
+                                <strong>Notifications</strong>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="notification-item">
+                                        <div class="notification-icon bg-primary">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div class="notification-content">
+                                            <p class="mb-0">New patient registered</p>
+                                            <small class="text-muted">5 minutes ago</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="notification-item">
+                                        <div class="notification-icon bg-success">
+                                            <i class="fas fa-calendar-check"></i>
+                                        </div>
+                                        <div class="notification-content">
+                                            <p class="mb-0">Appointment confirmed</p>
+                                            <small class="text-muted">1 hour ago</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-center" href="#">View all notifications</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- User Profile -->
+                    <div class="header-item dropdown">
+                        <button class="user-profile-btn" data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=@userName&background=667eea&color=fff"
+                                 alt="User" class="user-avatar" />
+                            <div class="user-info">
+                                <span class="user-name">@userName</span>
+                                <span class="user-role">Administrator</span>
+                            </div>
+                            <i class="fas fa-chevron-down ms-2"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end user-dropdown">
+                            <li>
+                                <a class="dropdown-item" href="/Account/Profile">
+                                    <i class="fas fa-user me-2"></i> My Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/Account/Settings">
+                                    <i class="fas fa-cog me-2"></i> Settings
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="/Account/Logout">
+                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <!-- PAGE CONTENT -->
+            <div class="page-content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Scripts -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Sidebar Toggle
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+
+            // Mobile
+            if (window.innerWidth <= 992) {
+                sidebar.classList.toggle('show-mobile');
+                sidebarOverlay.classList.toggle('show');
+            }
+        });
+
+        sidebarOverlay.addEventListener('click', function() {
+            sidebar.classList.remove('show-mobile');
+            sidebarOverlay.classList.remove('show');
+        });
+
+        // Active Navigation
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach(link => {
+            if (currentPath.includes(link.getAttribute('data-page'))) {
+                link.classList.add('active');
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 992) {
+                sidebar.classList.remove('show-mobile');
+                sidebarOverlay.classList.remove('show');
+            }
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

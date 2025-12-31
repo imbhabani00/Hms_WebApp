@@ -1,0 +1,44 @@
+﻿########################################
+# Build output
+########################################
+[Bb]in/
+[Oo]bj/
+**/[Bb]in/
+**/[Oo]bj/
+publish/
+**/publish/
+
+########################################
+# Visual Studio (user/machine specific)
+########################################
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.csproj.user
+
+########################################
+# ASP.NET Core settings (secrets)
+########################################
+# Common practice: ignore environment-specific settings (often contain secrets)
+appsettings.Development.json
+appsettings.Staging.json
+appsettings.Production.json
+appsettings.*.json
+
+# If you want to COMMIT appsettings.json (only safe defaults), keep it tracked:
+!appsettings.json
+
+########################################
+# Logs
+########################################
+*.log
+logs/
+**/logs/
+
+########################################
+# OS files
+########################################
+.DS_Store
+Thumbs.db

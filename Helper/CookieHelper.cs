@@ -33,27 +33,27 @@ namespace Hms.WebApp.Helper
 
         public void SetCookie(AuthResponseModel response, HttpContext context)
         {
-            context.Response.Cookies.Append(CookieConstants.AccessToken, response.Data.Token, new CookieOptions
+            context.Response.Cookies.Append(CookieConstants.AccessToken, response.Token, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
-                Expires = response.Data.Expires,
+                Expires = response.Expires,
                 SameSite = SameSiteMode.Strict
             });
 
-            context.Response.Cookies.Append(CookieConstants.RefreshToken, response.Data.RefreshToken ?? "", new CookieOptions
+            context.Response.Cookies.Append(CookieConstants.RefreshToken, response.RefreshToken ?? "", new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
-                Expires = response.Data.Expires,
+                Expires = response.Expires,
                 SameSite = SameSiteMode.Strict
             });
 
-            context.Response.Cookies.Append(CookieConstants.TokenExpiryTime, response.Data.Expires.Ticks.ToString(), new CookieOptions
+            context.Response.Cookies.Append(CookieConstants.TokenExpiryTime, response.Expires.ToString(), new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
-                Expires = response.Data.Expires,
+                Expires = response.Expires,
                 SameSite = SameSiteMode.Strict
             });
         }
@@ -61,11 +61,11 @@ namespace Hms.WebApp.Helper
         public void SetSSOCookie(AuthResponseModel response, HttpContext context)
         {
             // SSO specific cookies
-            context.Response.Cookies.Append("SSO_Token", response.Data.Token, new CookieOptions
+            context.Response.Cookies.Append("SSO_Token", response.Token, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
-                Expires = response.Data.Expires
+                Expires = response.Expires
             });
         }
 

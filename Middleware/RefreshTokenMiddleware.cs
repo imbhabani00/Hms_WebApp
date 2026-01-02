@@ -46,11 +46,11 @@ namespace Hms.WebApp.Middleware
                         });
 
                         // response expected type: AuthResponseModel (same as login)
-                        if (response?.Data != null && !string.IsNullOrEmpty(response.Data.Token))
+                        if (response != null && !string.IsNullOrEmpty(response.Token))
                         {
                             await cookieHelper.SignInAsyncWithCookie(
-                                response.Data.Token,
-                                response.Data.RefreshToken,
+                                response.Token,
+                                response.RefreshToken,
                                 context);
 
                             cookieHelper.SetCookie(response, context);

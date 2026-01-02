@@ -69,24 +69,19 @@ namespace YourProject.WebApp.Controllers
             try
             {
                 var response = await _tokenService.GetAccessToken(authModel);
-
                 if (response != null && response.StatusCode == 200)
                 {
                     var isMultiFactorAuthRequired = _config.GetValue<bool>("IsMultiFactorAuthentication");
-
                     if (isMultiFactorAuthRequired)
                     {
-                        // Generate and send access code
-                        await _userService.UpdateAccessCode(response.Data.Token);
-
+                        await _userService.UpdateAccessCode(response.Token);
                         var expires = _config.GetValue<int>("AccessCodeValidForSeconds");
-
                         return Json(new
                         {
                             success = true,
                             response = new
                             {
-                                token = response.Data.Token,
+                                token = response.Token,
                                 email = authModel.Email,
                                 timeValid = expires
                             }
@@ -94,15 +89,15 @@ namespace YourProject.WebApp.Controllers
                     }
                     else
                     {
-                        // No 2FA - Direct login
-                        await _cookieHelper.SignInAsyncWithCookie(response.Data.Token, response.Data.RefreshToken, HttpContext);
+                        await _cookieHelper.SignInAsyncWithCookie(
+                            response.Token, 
+                            response.RefreshToken,
+                            HttpContext);
                         _cookieHelper.SetCookie(response, HttpContext);
-
                         return Json(new { success = true, redirectUrl = "/Dashboard/Index" });
                     }
                 }
-
-                return Json(new { success = false, message = response?.Message ?? "Invalid credentials" });
+                return Json(new { success = false, message = response?.ErrorMessage ?? "Invalid credentials" });
             }
             catch (Exception ex)
             {
@@ -205,7 +200,7 @@ namespace YourProject.WebApp.Controllers
                     {
                         // Get permissions and set session
                         var concatenatedPermissions = new StringBuilder();
-                        var permissions = await _rolePermissionsService.GetUsersPermission(tokenResponse.Data.Token);
+                        var permissions = await _rolePermissionsService.GetUsersPermission(tokenResponse.Token);
 
                         if (permissions?.RolePermissions?.Count > 0)
                         {
@@ -217,7 +212,7 @@ namespace YourProject.WebApp.Controllers
                         }
 
                         // Set cookies
-                        await _cookieHelper.SignInAsyncWithCookie(tokenResponse.Data.Token, tokenResponse.Data.RefreshToken, HttpContext);
+                        await _cookieHelper.SignInAsyncWithCookie(tokenResponse.Token, tokenResponse.RefreshToken, HttpContext);
                         _cookieHelper.SetCookie(tokenResponse, HttpContext);
 
                         // Determine redirect URL based on permissions

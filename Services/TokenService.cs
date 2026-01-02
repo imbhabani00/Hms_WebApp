@@ -43,7 +43,7 @@ namespace Hms.WebApp.Services
             try
             {
                 string accessTokenEndpoint = $"{HmsApiUrl}/api/v{HmsApiVersion}/token/access-token";
-                var response = await DoHttpPost(accessTokenEndpoint, authModel);
+                var response = await DoHttpPost(accessTokenEndpoint, authModel, null!);
                 response.EnsureSuccessStatusCode();
                 var content = await response.Content.ReadAsStringAsync();
                 var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(content);

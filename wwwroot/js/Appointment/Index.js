@@ -15,9 +15,6 @@ function LoadAppointmentList() {
         async: true,
         success: function (data) {
             $("#appointmentListDiv").html(data);
-            if (typeof LoadSelect2Picker === 'function') {
-                LoadSelect2Picker();
-            }
             return true;
         },
         error: function () {

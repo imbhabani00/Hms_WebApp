@@ -1,7 +1,4 @@
 ﻿@using Hms.WebApp.Extensions;
-@{
-    var userName = User?.FindFirst("name")?.Value ?? "User";
-}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +33,55 @@
 
     <!-- Toaster -->
     <script src="~/lib/toaster/toastr.min.js"></script>
+    <style>
+        .user-dropdown {
+            border: none;
+            border-radius: 12px;
+            padding: 0;
+            margin-top: 8px;
+        }
 
+            .user-dropdown .dropdown-item {
+                padding: 10px 20px;
+                transition: all 0.2s ease;
+                font-size: 14px;
+            }
+
+                .user-dropdown .dropdown-item:hover {
+                    background-color: #f8f9fa;
+                    padding-left: 24px;
+                }
+
+                .user-dropdown .dropdown-item i {
+                    width: 20px;
+                    font-size: 14px;
+                }
+
+            .user-dropdown .text-danger:hover {
+                background-color: #fff5f5;
+            }
+
+        .user-profile-btn {
+            display: flex;
+            align-items: center;
+            background: transparent;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+            .user-profile-btn:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    </style>
 </head>
 
 <body>
@@ -108,7 +153,7 @@
                         </a>
                     </li>
 
-                    @* Nurses *@
+                    @* Nurse*@
                     <li class="nav-item">
                         <a href="/Nurse/Index" class="nav-link" data-page="Nurse" style="display: flex; align-items: center; gap: 8px;">
                             <div class="nav-icon">
@@ -145,10 +190,10 @@
             <!-- Sidebar Footer -->
             <div class="sidebar-footer">
                 <div class="user-info-compact">
-                    <img src="https://ui-avatars.com/api/?name=@userName&background=667eea&color=fff"
+                    <img src=""
                          alt="User" class="user-avatar-small" />
                     <div class="user-details-small">
-                        <span class="user-name-small">@userName</span>
+                        <span class="user-name-small">userName</span>
                         <span class="user-role-small">Administrator</span>
                     </div>
                 </div>
@@ -168,87 +213,63 @@
                     </div>
                 </div>
 
-                <div class="header-right">
-                    <!-- Search -->
-                    <div class="header-search">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" class="search-input" placeholder="Search..." />
-                    </div>
+                <div class="header-item dropdown">
+                    <button class="user-profile-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src=""
+                             alt="User" class="user-avatar" />
+                        <div class="user-info d-none d-md-block">
+                            <span class="user-name">userName</span>
+                            <span class="user-role">Administrator</span>
+                        </div>
+                        <i class="fas fa-chevron-down ms-2"></i>
+                    </button>
 
-                    <!-- Notifications -->
-                    <div class="header-item dropdown">
-                        <button class="icon-button" data-bs-toggle="dropdown">
-                            <i class="fas fa-bell"></i>
-                            <span class="notification-badge">3</span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end notification-dropdown">
-                            <li class="dropdown-header">
-                                <strong>Notifications</strong>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <div class="notification-item">
-                                        <div class="notification-icon bg-primary">
-                                            <i class="fas fa-user"></i>
-                                        </div>
-                                        <div class="notification-content">
-                                            <p class="mb-0">New patient registered</p>
-                                            <small class="text-muted">5 minutes ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <div class="notification-item">
-                                        <div class="notification-icon bg-success">
-                                            <i class="fas fa-calendar-check"></i>
-                                        </div>
-                                        <div class="notification-content">
-                                            <p class="mb-0">Appointment confirmed</p>
-                                            <small class="text-muted">1 hour ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item text-center" href="#">View all notifications</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- User Profile -->
-                    <div class="header-item dropdown">
-                        <button class="user-profile-btn" data-bs-toggle="dropdown">
-                            <img src="https://ui-avatars.com/api/?name=@userName&background=667eea&color=fff"
-                                 alt="User" class="user-avatar" />
-                            <div class="user-info">
-                                <span class="user-name">@userName</span>
-                                <span class="user-role">Administrator</span>
+                    <ul class="dropdown-menu dropdown-menu-end user-dropdown shadow-lg" style="min-width: 280px;">
+                        <!-- User Info Header -->
+                        <li class="px-3 py-3 border-bottom bg-light">
+                            <div class="d-flex align-items-center">
+                                <img src=""
+                                     alt="User" class="rounded-circle me-3"
+                                     style="width: 50px; height: 50px; border: 2px solid #e9ecef;" />
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0 fw-bold text-dark">userName</h6>
+                                    <small class="text-muted d-block">Administrator</small>
+                                    <span class="badge bg-success mt-1" style="font-size: 10px;">
+                                        <i class="fas fa-circle me-1" style="font-size: 6px;"></i>Active
+                                    </span>
+                                </div>
                             </div>
-                            <i class="fas fa-chevron-down ms-2"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end user-dropdown">
-                            <li>
-                                <a class="dropdown-item" href="/Account/Profile">
-                                    <i class="fas fa-user me-2"></i> My Profile
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/Account/Settings">
-                                    <i class="fas fa-cog me-2"></i> Settings
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item text-danger" href="/Account/Logout">
-                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                        </li>
+
+                        <!-- Menu Options -->
+                        <li class="mt-2">
+                            <a class="dropdown-item py-2" href="/Account/Profile">
+                                <i class="fas fa-user-circle me-2 text-primary"></i>
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item py-2" href="/Account/EditProfile">
+                                <i class="fas fa-user-edit me-2 text-info"></i>
+                                <span>Edit Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item py-2" href="/Account/Settings">
+                                <i class="fas fa-cog me-2 text-secondary"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider my-2"></li>
+
+                        <li class="mb-2">
+                            <a class="dropdown-item py-2 text-danger" href="/Account/Logout">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </header>
 
@@ -266,6 +287,10 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        $(document).ready(function,(){
+            InitializeUserProfile();
+        });
+
         // Sidebar Toggle
         const sidebarToggle = document.getElementById('sidebarToggle');
         const sidebar = document.getElementById('sidebar');
@@ -305,6 +330,77 @@
                 sidebarOverlay.classList.remove('show');
             }
         });
+
+
+        function LoadUserProfileFromCache() {
+             let userName = localStorage.getItem("cachedUserName");
+             let centerName = localStorage.getItem("cachedCenterName");
+             let roleName = localStorage.getItem("cachedRoleName");
+             let profilePicturePath = localStorage.getItem("cachedProfilePicturePath");
+             let workforceCenterId = localStorage.getItem("cachedWorkforceCenterId");
+             let roleCode = localStorage.getItem("cachedRoleCode");
+
+             if (userName && centerName && roleName) {
+                 $("#userName").html(userName);
+                 if (centerName != null) {
+                    $(".centerName").show();
+                    $("#centerName").html(centerName);
+                 } else {
+                     $(".centerName").hide();
+                 }
+                 $("#roleName").html(roleName);
+
+                 if (profilePicturePath) {
+                     $("#profileImg").attr("src", profilePicturePath);
+                 } else {
+                     $("#profileImg").css('background-image', 'url(../assets/img/user/user.jpg)');
+                 }
+                 return true;
+             }
+             return false;
+         }
+
+
+        function InitializeUserProfile() {
+             if (!LoadUserProfileFromCache()) {
+                 LoadUserProfile();
+             }
+         }
+
+         function ClearUserProfileCache() {
+             localStorage.removeItem("cachedUserName");
+             localStorage.removeItem("cachedCenterName");
+             localStorage.removeItem("cachedRoleName");
+             localStorage.removeItem("cachedProfilePicturePath");
+             localStorage.removeItem("cachedWorkforceCenterId");
+         }
+
+        function LoadUserProfile(){
+            $.ajax({
+                 url: '/UserProfile/Index',
+                 type: 'GET',
+                 data: {
+                     isFromLayout: true
+                 },
+                 cache: false,
+                 async: false,
+                 success: function (data) {
+                     if (data) {
+                         let userName = data.firstName + " " + data.lastName;
+                         let profilePicturePath = data.profilePicturePath;
+                         let roleName = data.roleName;
+                         let roleCode = data.roleCode;
+                         let roleId = data.roleId;
+                         
+
+
+                         localStorage.setItem("cachedUserName", userName);
+                         localStorage.setItem("cachedRoleName", roleName);
+                         localStorage.setItem("cachedRoleCode", roleCode);
+                         localStorage.setItem("cachedRoleId", roleId);
+                         localStorage.setItem("cachedProfilePicturePath", profilePicturePath);
+        }
+
     </script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 

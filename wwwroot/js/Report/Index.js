@@ -17,9 +17,6 @@ function LoadReportList() {
         async: true,
         success: function (data) {
             $("#reportListDiv").html(data);
-            if (typeof LoadSelect2Picker === 'function') {
-                LoadSelect2Picker();
-            }
             return true;
         },
         error: function () {
@@ -28,9 +25,7 @@ function LoadReportList() {
     });
 }
 
-// Generate Report function
 function generateReport() {
-    // You can customize this based on your needs
     window.open('/Report/Generate?type=all', '_blank');
 }
 
@@ -40,13 +35,11 @@ $("#ItemsPerPageReportList").change(function () {
     LoadReportList();
 });
 
-// Report type filter change
 $("#reportTypeFilter").change(function () {
     $("#hdn_ReportPage").val("1");
     LoadReportList();
 });
 
-// Search with debounce
 let searchTimeout;
 $("#reportSearch").on('keyup', function () {
     clearTimeout(searchTimeout);

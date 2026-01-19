@@ -2,87 +2,166 @@
     ViewData["Title"] = "Appointments";
 }
 
-<div class="container-fluid px-4 py-5">
-    <!-- Page Header Card -->
-    <div class="card shadow-lg">
-        <div class="card-body p-5">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <div class="d-flex align-items-center mb-3 mb-md-0">
-                        <div class="bg-gradient-primary text-white rounded-circle p-3 me-3 shadow-sm" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-calendar-check fa-lg"></i>
-                        </div>
-                        <div>
-                            <h2 class="mb-1 text-dark fw-bold">Appointment Management</h2>
-                            <p class="mb-0 text-muted">Manage patient appointments, schedules and bookings</p>
-                        </div>
+<!-- Universal Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Loading...</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-3" id="myModalContent">
+                <!-- AJAX content loads here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid px-4 py-3">
+    <!-- Single Line Header Card -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-body p-3">
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <!-- Title Section -->
+                <div class="d-flex align-items-center" style="min-width: 220px;">
+                    <div class="bg-primary text-white rounded-circle p-2 me-2 shadow"
+                         style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-bold text-dark">Appointments</h6>
+                        <small class="text-muted">Manage schedules</small>
                     </div>
                 </div>
-                <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <a href="/Appointment/Add" class="btn btn-primary btn-lg shadow-lg px-4">
-                        <i class="fas fa-plus me-2"></i>
-                        Schedule New Appointment
+
+                <!-- Search Bar -->
+                <div class="flex-grow-1" style="min-width: 250px; max-width: 400px;">
+                    <div class="position-relative">
+                        <i class="fas fa-search text-muted position-absolute start-0 top-50 translate-middle-y ms-3"
+                           style="font-size: 12px;"></i>
+                        <input type="text" id="appointmentSearch" class="form-control form-control-sm ps-5"
+                               style="height: 38px; padding-left: 40px !important; font-size: 14px;"
+                               placeholder="Search appointments...">
+                    </div>
+                </div>
+
+                <!-- Items Per Page -->
+                <div style="width: 90px;">
+                    <select id="ItemsPerPageAppointmentList" class="form-select form-select-sm"
+                            style="height: 38px; font-size: 13px;">
+                        <option value="10">10</option>
+                        <option value="25" selected>25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <input type="hidden" id="hdn_AppointmentPage" value="1" />
+                </div>
+
+                <!-- Schedule Button -->
+                <div style="width: 160px;">
+                    <a href="/Appointment/Add" class="btn btn-primary btn-sm w-100 d-flex align-items-center justify-content-center gap-1"
+                       style="height: 38px; font-size: 13px; font-weight: 500;">
+                        <i class="fas fa-plus"></i>
+                        <span>Schedule Appointment</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Search & Controls Card -->
-    <div class="card shadow-sm mt-4">
-        <div class="card-body p-4">
-            <div class="row align-items-end g-3">
-                <div class="col-lg-8">
-                    <label class="form-label fw-semibold text-muted mb-2">Search Appointments</label>
-                    <div class="position-relative">
-                        <i class="fas fa-search text-muted position-absolute start-0 top-50 translate-middle-y ms-3"></i>
-                        <input type="text" id="appointmentSearch" class="form-control form-control-lg ps-5"
-                               placeholder="Search by patient, doctor, date, status...">
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <label class="form-label fw-semibold text-muted mb-2 d-block">Items per page:</label>
-                            <select id="ItemsPerPageAppointmentList" class="form-select form-select-lg">
-                                <option value="10">10</option>
-                                <option value="25" selected>25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <input type="hidden" id="hdn_AppointmentPage" value="1" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Appointments List Card -->
-    <div class="card shadow-lg mt-4">
-        <div class="card-header bg-transparent border-0 pb-0">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="mb-0 fw-bold text-dark">
-                    <i class="fas fa-list me-2 text-primary"></i>
-                    All Appointments
-                </h5>
-                <span class="badge bg-primary rounded-pill px-3 py-2">Loading...</span>
+    <div class="card shadow-sm">
+        <div class="card-header bg-light border-bottom py-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <h6 class="mb-0 fw-bold text-dark">
+                    <i class="fas fa-list me-2 text-primary"></i>All Appointments
+                </h6>
+                <span class="badge bg-primary rounded-pill px-3 py-1" style="font-size: 12px;">Loading...</span>
             </div>
         </div>
-        <div class="card-body p-4">
-            <div id="appointmentListDiv" class="position-relative">
-                <!-- Loading state -->
-                <div class="text-center py-5">
-                    <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
+        <div class="card-body p-0">
+            <div id="appointmentListDiv" style="min-height: 450px;">
+                <!-- Loading State -->
+                <div class="d-flex flex-column align-items-center justify-content-center py-5">
+                    <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    <h5 class="text-muted">Loading appointments...</h5>
-                    <p class="text-muted">Please wait while we fetch the latest appointment records</p>
+                    <h6 class="text-muted mb-1">Loading appointments...</h6>
+                    <small class="text-muted">Please wait while we fetch the records</small>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script src="~/js/appointment/index.js"></script>
+
+<style>
+    /* Ensure consistent sizing across all controls */
+    .form-control-sm, .form-select-sm, .btn-sm {
+        font-size: 13px !important;
+    }
+
+    /* Responsive adjustments */
+    media (max-width: 992px) {
+        .d-flex.gap-3.flex-wrap > div {
+            margin-bottom: 8px;
+        }
+    }
+
+    media (max-width: 768px) {
+        .d-flex.gap-3.flex-wrap {
+            flex-direction: column;
+            align-items: stretch !important;
+        }
+
+            .d-flex.gap-3.flex-wrap > div {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+            }
+    }
+
+    /* Hover effects */
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+    }
+
+    /* Table header styling when data loads */
+    .table thead th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #495057;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+        transition: background-color 0.2s ease;
+    }
+
+    /* Badge animation */
+    .badge {
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.7;
+        }
+    }
+</style>

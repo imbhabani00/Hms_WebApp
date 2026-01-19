@@ -2,88 +2,149 @@
     ViewData["Title"] = "Patients";
 }
 
-<div class="container-fluid px-4 py-5">
-    <!-- Page Header Card -->
-    <div class="card shadow-lg">
-        <div class="card-body p-5">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <div class="d-flex align-items-center mb-3 mb-md-0">
-                        <div class="bg-gradient-primary text-white rounded-circle p-3 me-3 shadow-sm" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-users fa-lg"></i>
-                        </div>
-                        <div>
-                            <h2 class="mb-1 text-dark fw-bold">Patient Management</h2>
-                            <p class="mb-0 text-muted">Manage patient records and track healthcare delivery</p>
-                        </div>
+<!-- Universal Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Loading...</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-3" id="myModalContent">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid px-4 py-3">
+    <!-- Single Line Header Card -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-body p-3">
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <!-- Title Section -->
+                <div class="d-flex align-items-center" style="min-width: 180px;">
+                    <div class="bg-primary text-white rounded-circle p-2 me-2 shadow"
+                         style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-bold text-dark">Patients</h6>
+                        <small class="text-muted">Manage records</small>
                     </div>
                 </div>
-                <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <a href="/Patient/Add" class="btn btn-primary btn-lg shadow-lg px-4">
-                        <i class="fas fa-plus me-2"></i>
-                        Add New Patient
+
+                <!-- Search Bar -->
+                <div class="flex-grow-1" style="min-width: 250px; max-width: 400px;">
+                    <div class="position-relative">
+                        <i class="fas fa-search text-muted position-absolute start-0 top-50 translate-middle-y ms-3"
+                           style="font-size: 12px;"></i>
+                        <input type="text" id="patientSearch" class="form-control form-control-sm ps-5"
+                               style="height: 38px; padding-left: 40px !important; font-size: 14px;"
+                               placeholder="Search patients...">
+                    </div>
+                </div>
+
+                <!-- Items Per Page -->
+                <div style="width: 90px;">
+                    <select id="ItemsPerPagePatientList" class="form-select form-select-sm"
+                            style="height: 38px; font-size: 13px;">
+                        <option value="10">10</option>
+                        <option value="25" selected>25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <input type="hidden" id="hdn_PatientPage" value="1" />
+                </div>
+
+                <!-- Add Button -->
+                <div style="width: 120px;">
+                    <a href="#" class="btn btn-primary btn-sm w-100 d-flex align-items-center justify-content-center gap-1"
+                       style="height: 38px; font-size: 13px; font-weight: 500;"
+                       onclick="LoadPopUp('Modallg','/Patient/LoadCreateForm'); return false;">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Patient</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Search & Controls Card -->
-    <div class="card shadow-sm mt-4">
-        <div class="card-body p-4">
-            <div class="row align-items-end g-3">
-                <div class="col-lg-8">
-                    <label class="form-label fw-semibold text-muted mb-2">Search Patients</label>
-                    <div class="position-relative">
-                        <i class="fas fa-search text-muted position-absolute start-0 top-50 translate-middle-y ms-3"></i>
-                        <input type="text" id="patientSearch" class="form-control form-control-lg ps-5"
-                               placeholder="Search by name, ID, phone, email...">
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <label class="form-label fw-semibold text-muted mb-2 d-block">Items per page:</label>
-                            <select id="ItemsPerPagePatientList" class="form-select form-select-lg">
-                                <option value="10">10</option>
-                                <option value="25" selected>25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <input type="hidden" id="hdn_PatientPage" value="1" />
-                        </div>
-                    </div>
-                </div>
+    <!-- Patient List Card -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-light border-bottom py-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <h6 class="mb-0 fw-bold text-dark">
+                    <i class="fas fa-list me-2 text-primary"></i>All Patients
+                </h6>
+                <small class="text-muted">Total records will appear here</small>
             </div>
         </div>
-    </div>
-
-    <!-- Patients List Card -->
-    <div class="card shadow-lg mt-4">
-        <div class="card-header bg-transparent border-0 pb-0">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="mb-0 fw-bold text-dark">
-                    <i class="fas fa-list me-2 text-primary"></i>
-                    All Patients
-                </h5>
-                <span class="badge bg-primary rounded-pill px-3 py-2">Loading...</span>
-            </div>
-        </div>
-        <div class="card-body p-4">
-            <div id="patientListDiv" class="position-relative">
-                <!-- Loading state -->
-                <div class="text-center py-5">
-                    <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
+        <div class="card-body p-0">
+            <div id="patientListDiv" style="min-height: 450px;">
+                <!-- Loading State -->
+                <div class="d-flex flex-column align-items-center justify-content-center py-5">
+                    <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    <h5 class="text-muted">Loading patients...</h5>
-                    <p class="text-muted">Please wait while we fetch the latest patient records</p>
+                    <h6 class="text-muted mb-1">Loading patients...</h6>
+                    <small class="text-muted">Please wait while we fetch the records</small>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script src="~/js/patient/index.js"></script>
+<style>
+    /* Ensure consistent sizing across all controls */
+    .form-control-sm, .form-select-sm, .btn-sm {
+        font-size: 13px !important;
+    }
+
+    /* Responsive adjustments */
+    media (max-width: 992px) {
+        .d-flex.gap-3.flex-wrap > div {
+            margin-bottom: 8px;
+        }
+    }
+
+    media (max-width: 768px) {
+        .d-flex.gap-3.flex-wrap {
+            flex-direction: column;
+            align-items: stretch !important;
+        }
+
+            .d-flex.gap-3.flex-wrap > div {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+            }
+    }
+
+    /* Hover effects */
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+    }
+
+    /* Table header styling when data loads */
+    .table thead th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #495057;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+        transition: background-color 0.2s ease;
+    }
+</style>

@@ -15,9 +15,6 @@ function LoadDepartmentList() {
         async: true,
         success: function (data) {
             $("#departmentListDiv").html(data);
-            if (typeof LoadSelect2Picker === 'function') {
-                LoadSelect2Picker();
-            }
             return true;
         },
         error: function () {

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Departments";
+    ViewData["Title"] = "Nurses";
 }
 
 <!-- Universal Modal -->
@@ -29,7 +29,7 @@
                         <i class="fas fa-calendar-check"></i>
                     </div>
                     <div>
-                        <h6 class="mb-0 fw-bold text-dark">Departments</h6>
+                        <h6 class="mb-0 fw-bold text-dark">Nurses</h6>
                         <small class="text-muted">Manage records</small>
                     </div>
                 </div>
@@ -39,54 +39,54 @@
                     <div class="position-relative">
                         <i class="fas fa-search text-muted position-absolute start-0 top-50 translate-middle-y ms-3"
                            style="font-size: 12px;"></i>
-                        <input type="text" id="departmentSearch" class="form-control form-control-sm ps-5"
+                        <input type="text" id="nurseSearch" class="form-control form-control-sm ps-5"
                                style="height: 38px; padding-left: 40px !important; font-size: 14px;"
-                               placeholder="Search departments...">
+                               placeholder="Search nurses...">
                     </div>
                 </div>
 
                 <!-- Items Per Page -->
                 <div style="width: 90px;">
-                    <select id="ItemsPerPageDepartmentList" class="form-select form-select-sm"
+                    <select id="ItemsPerPageNurseList" class="form-select form-select-sm"
                             style="height: 38px; font-size: 13px;">
                         <option value="10">10</option>
                         <option value="25" selected>25</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-                    <input type="hidden" id="hdn_DepartmentPage" value="1" />
+                    <input type="hidden" id="hdn_NursePage" value="1" />
                 </div>
 
                 <!-- Schedule Button -->
                 <div style="width: 160px;">
-                    <a href="/Department/Add" class="btn btn-primary btn-sm w-100 d-flex align-items-center justify-content-center gap-1"
+                    <a href="/Nurse/Add" class="btn btn-primary btn-sm w-100 d-flex align-items-center justify-content-center gap-1"
                        style="height: 38px; font-size: 13px; font-weight: 500;">
                         <i class="fas fa-plus"></i>
-                        <span>Department</span>
+                        <span>Nurse</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Departments List Card -->
+    <!-- Nurses List Card -->
     <div class="card shadow-sm">
         <div class="card-header bg-light border-bottom py-3">
             <div class="d-flex align-items-center justify-content-between">
                 <h6 class="mb-0 fw-bold text-dark">
-                    <i class="fas fa-list me-2 text-primary"></i>All Departments
+                    <i class="fas fa-list me-2 text-primary"></i>All Nurses
                 </h6>
                 <span class="badge bg-primary rounded-pill px-3 py-1" style="font-size: 12px;">Loading...</span>
             </div>
         </div>
         <div class="card-body p-0">
-            <div id="departmentListDiv" style="min-height: 450px;">
+            <div id="nurseListDiv" style="min-height: 450px;">
                 <!-- Loading State -->
                 <div class="d-flex flex-column align-items-center justify-content-center py-5">
                     <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    <h6 class="text-muted mb-1">Loading departments...</h6>
+                    <h6 class="text-muted mb-1">Loading nurses...</h6>
                     <small class="text-muted">Please wait while we fetch the records</small>
                 </div>
             </div>
@@ -94,7 +94,7 @@
     </div>
 </div>
 
-<script src="~/js/department/index.js"></script>
+<script src="~/js/nurse/index.js"></script>
 
 <style>
     /* Ensure consistent sizing across all controls */

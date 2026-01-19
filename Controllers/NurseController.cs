@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hms.WebApp.Controllers
 {
-    public class NursesController : BaseController
+    public class NurseController : BaseController
     {
         #region Properties
         private readonly ICookieHelper _cookieHelper;
@@ -15,7 +15,7 @@ namespace Hms.WebApp.Controllers
         #endregion
 
         #region Constructor
-        public NursesController(
+        public NurseController(
             IConfiguration config,
             ITokenService tokenService,
             ICookieHelper cookieHelper,

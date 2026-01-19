@@ -172,12 +172,13 @@ body {
 .nav-link {
     display: flex;
     align-items: center;
+    flex-direction: row;
     padding: 12px 15px;
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     border-radius: var(--radius-md);
     transition: all var(--transition-fast);
-    gap: 15px;
+    gap: 12px;
     position: relative;
     overflow: hidden;
 }
@@ -236,6 +237,7 @@ body {
     font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
+    flex: 1;
 }
 
 /* Sidebar Footer */
@@ -851,3 +853,81 @@ body {
 .shadow-lg {
     box-shadow: var(--shadow-lg);
 }
+
+
+/* ===============================================
+   SIDEBAR COLLAPSED STATE FIXES
+   =============================================== */
+
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+    .sidebar.collapsed .brand-text,
+    .sidebar.collapsed .nav-text,
+    .sidebar.collapsed .user-details-small {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+        visibility: hidden;
+    }
+
+    .sidebar.collapsed .sidebar-brand {
+        justify-content: center;
+        padding: 20px 10px;
+    }
+
+    .sidebar.collapsed .nav-link {
+        justify-content: center;
+        padding: 12px 10px;
+        gap: 0;
+    }
+
+        .sidebar.collapsed .nav-link::before {
+            display: none;
+        }
+
+    .sidebar.collapsed .nav-icon {
+        margin: 0;
+    }
+
+    .sidebar.collapsed .user-info-compact {
+        justify-content: center;
+    }
+
+    .sidebar.collapsed .user-avatar-small {
+        margin: 0;
+    }
+
+    /* Tooltip for collapsed sidebar */
+    .sidebar.collapsed .nav-link {
+        position: relative;
+    }
+
+        .sidebar.collapsed .nav-link:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--text-dark);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            white-space: nowrap;
+            margin-left: 10px;
+            z-index: 1001;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .sidebar.collapsed .nav-link:hover::before {
+            content: '';
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-right-color: var(--text-dark);
+            margin-left: 4px;
+        }

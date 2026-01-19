@@ -8,6 +8,7 @@
 
     // Auto-submit when 6 digits entered
     $('#accessCode').on('input', function () {
+        debugger
         if ($(this).val().length === 6) {
             $('#verifyBtn').click();
         }
@@ -26,27 +27,36 @@
         }
 
         var $btn = $('#verifyBtn');
+        debugger
         var $spinner = $btn.find('.spinner-border');
         $btn.prop('disabled', true);
         $spinner.removeClass('d-none');
         $btn.text('Verifying...');
 
+        var accessCode = $('#accessCode').val().trim();
+        var token = $('#token').val();
+
+        var formData = new FormData();
+        formData.append('AccessCode', accessCode);
+        formData.append('Token', token);
+
         $.ajax({
             url: '/Account/ValidateAccessCode',
             type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                Token: token,
-                AccessCode: accessCode
-            }),
-            success: function (result) {
-                if (result.success) {
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                debugger
+                if (response.success) {
                     ShowToasterMessage('success', 'Login successful!', 'Success');
+                    var redirectUrl = response.redirectUrl || '/Dashboard/Index';
+
                     setTimeout(function () {
-                        window.location.href = result.redirectUrl;
+                        window.location.href = redirectUrl;
                     }, 1000);
                 } else {
-                    ShowToasterMessage('error', result.message || 'Invalid access code', 'Error');
+                    ShowToasterMessage('error', response.message || 'Invalid access code', 'Error');
                     $('#accessCode').val('').focus();
                 }
             },

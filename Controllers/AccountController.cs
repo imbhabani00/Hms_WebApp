@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Serilog;
 using System.Text;
 
@@ -83,14 +84,15 @@ namespace YourProject.WebApp.Controllers
                             {
                                 token = response.Token,
                                 email = authModel.Email,
-                                timeValid = expires
+                                timeValid = expires,
+                                accessCode = response.AccessCode
                             }
                         });
                     }
                     else
                     {
                         await _cookieHelper.SignInAsyncWithCookie(
-                            response.Token, 
+                            response.Token,
                             response.RefreshToken,
                             HttpContext);
                         _cookieHelper.SetCookie(response, HttpContext);
@@ -170,7 +172,7 @@ namespace YourProject.WebApp.Controllers
         #region TwoFactorAuth - GET
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult TwoFactorAuth(string token, string email)
+        public IActionResult TwoFactorAuth(string token, string email, string accessCode)
         {
             var model = new TwoFactorAuthModel
             {
@@ -191,44 +193,78 @@ namespace YourProject.WebApp.Controllers
             {
                 var response = await _userService.ValidateAccessCode(model.Token, model.AccessCode);
 
-                if (response.StatusCode == 200)
+                if (response.StatusCode == 200 && response.Data != null)
                 {
-                    // Access code is valid - Now login user
-                    var tokenResponse = await _tokenService.GetAccessTokenWithValidation(model.Token);
+                    var userData = JsonConvert.DeserializeObject<AuthResponseModel>(
+                        response.Data.ToString()
+                    );
 
-                    if (tokenResponse != null && tokenResponse.StatusCode == 200)
+                    var userId = userData.UserId;
+                    var tenantId = userData.TenantId;
+                    var roleCode = userData.RoleCode;
+                    var token = userData.Token;
+                    var refreshToken = userData.RefreshToken;
+                    var accessToken = userData.Token;
+
+                    var concatenatedPermissions = new StringBuilder();
+                    var permissions = await _rolePermissionsService.GetUsersPermission(userId, tenantId, accessToken);
+
+                    if (permissions?.RolePermissions?.Count > 0)
                     {
-                        // Get permissions and set session
-                        var concatenatedPermissions = new StringBuilder();
-                        var permissions = await _rolePermissionsService.GetUsersPermission(tokenResponse.Token);
-
-                        if (permissions?.RolePermissions?.Count > 0)
+                        foreach (var permission in permissions.RolePermissions.Where(p => p.HasPermission))
                         {
-                            foreach (var permission in permissions.RolePermissions.Where(p => p.HasPermission))
-                            {
-                                concatenatedPermissions.Append($"{permission.Code.ToUpper()},");
-                            }
-                            _httpContextAccessor.HttpContext.Session.SetString("UserPermissions", concatenatedPermissions.ToString());
+                            concatenatedPermissions.Append($"{permission.PermissionCode.ToUpper()},");
                         }
 
-                        // Set cookies
-                        await _cookieHelper.SignInAsyncWithCookie(tokenResponse.Token, tokenResponse.RefreshToken, HttpContext);
-                        _cookieHelper.SetCookie(tokenResponse, HttpContext);
-
-                        // Determine redirect URL based on permissions
-                        var returnURL = DetermineRedirectUrl(permissions);
-
-                        return Json(new { success = true, redirectUrl = returnURL });
+                        // Set session
+                        _httpContextAccessor.HttpContext.Session.SetString(
+                            "UserPermissions",
+                            concatenatedPermissions.ToString().TrimEnd(',')
+                        );
+                        _httpContextAccessor.HttpContext.Session.SetInt32("UserId", userId);
+                        _httpContextAccessor.HttpContext.Session.SetInt32("TenantId", tenantId);
+                        _httpContextAccessor.HttpContext.Session.SetString("RoleCode", roleCode);
+                        _httpContextAccessor.HttpContext.Session.SetString("UserName", $"{userData.FirstName} {userData.LastName}");
                     }
+
+                    // Set cookies
+                    await _cookieHelper.SignInAsyncWithCookie(token, refreshToken, HttpContext);
+                    _cookieHelper.SetCookie(userData, HttpContext);
+
+                    // Redirect based on role
+                    var returnURL = DetermineRedirectUrl(permissions, roleCode);
+
+                    return Json(new { success = true, redirectUrl = returnURL });
                 }
 
-                return Json(new { success = false, message = response.Message ?? "Invalid or expired access code" });
+                return Json(new
+                {
+                    success = true,
+                    message = response.Message ?? "Invalid or expired access code"
+                });
             }
             catch (Exception ex)
             {
                 Log.Logger.Error("Access code validation failed: {Message}", ex.Message);
-                return Json(new { success = false, message = "Validation error occurred" });
+                return Json(new
+                {
+                    success = false,
+                    message = "Validation error occurred"
+                });
             }
+        }
+
+        private string DetermineRedirectUrl(RolePermissionResponse permissions, string roleCode)
+        {
+            return roleCode switch
+            {
+                "CEO" or "ADM" => Url.Action("Index", "Dashboard"),
+                "DOC" => Url.Action("Index", "Doctor"),
+                "NUR" => Url.Action("Index", "Nurse"),
+                "PAT" => Url.Action("Index", "Patient"),
+                "REC" => Url.Action("Index", "Reception"),
+                _ => Url.Action("Index", "Dashboard")
+            };
         }
         #endregion
 

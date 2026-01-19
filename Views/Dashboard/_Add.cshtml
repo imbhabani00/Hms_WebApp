@@ -1,0 +1,329 @@
+﻿@model Hms.WebApp.Models.Dashboard.DashboardStatisticsModel
+
+@{
+    ViewData["Title"] = "Add Dashboard Statistics";
+}
+
+<style>
+    :root {
+        --primary-gradient-start: #667eea;
+        --primary-gradient-end: #764ba2;
+        --purple-accent: #6f42c1;
+    }
+
+    .page-header {
+        background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        box-shadow: 0 8px 16px rgba(111, 66, 193, 0.3);
+    }
+
+    .form-section {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-left: 5px solid var(--purple-accent);
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 25px;
+        color: var(--purple-accent);
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+    }
+
+    .form-control, .form-select {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 12px 15px;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--purple-accent);
+            box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+        }
+
+    .btn-gradient {
+        background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(111, 66, 193, 0.3);
+            color: white;
+        }
+
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+        margin-top: 30px;
+    }
+
+    .chart-data-group {
+        margin-bottom: 30px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+
+    .chart-data-title {
+        color: var(--purple-accent);
+        font-weight: 600;
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+</style>
+
+<div class="container-fluid px-4">
+    <div class="page-header">
+        <h2 class="mb-2">
+            <i class="fas fa-plus-circle me-2"></i>
+            Add Dashboard Statistics
+        </h2>
+        <p class="mb-0">Configure and add new statistics to the dashboard</p>
+    </div>
+
+    <form asp-action="Save" asp-controller="Dashboard" method="post">
+        <!-- Section 1: Hero Statistics -->
+        <div class="form-section">
+            <div class="section-header">
+                <i class="fas fa-chart-line"></i>
+                <span>Hero Statistics</span>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="Departments" class="form-label"></label>
+                    <input asp-for="Departments" class="form-control" placeholder="Enter number of departments" />
+                    <span asp-validation-for="Departments" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="PatientsServed" class="form-label"></label>
+                    <input asp-for="PatientsServed" class="form-control" placeholder="Enter patients served count" />
+                    <span asp-validation-for="PatientsServed" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="PatientSatisfaction" class="form-label"></label>
+                    <input asp-for="PatientSatisfaction" class="form-control" placeholder="e.g., 95" />
+                    <span asp-validation-for="PatientSatisfaction" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="YearsExperience" class="form-label"></label>
+                    <input asp-for="YearsExperience" class="form-control" placeholder="Enter years" />
+                    <span asp-validation-for="YearsExperience" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Hospital Statistics -->
+        <div class="form-section">
+            <div class="section-header">
+                <i class="fas fa-hospital"></i>
+                <span>Hospital Statistics</span>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label asp-for="TotalDoctors" class="form-label"></label>
+                    <input asp-for="TotalDoctors" class="form-control" placeholder="Enter total doctors" />
+                    <span asp-validation-for="TotalDoctors" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="TotalPatients" class="form-label"></label>
+                    <input asp-for="TotalPatients" class="form-control" placeholder="Enter total patients" />
+                    <span asp-validation-for="TotalPatients" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="AvailableBeds" class="form-label"></label>
+                    <input asp-for="AvailableBeds" class="form-control" placeholder="Enter available beds" />
+                    <span asp-validation-for="AvailableBeds" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="ICUSeats" class="form-label"></label>
+                    <input asp-for="ICUSeats" class="form-control" placeholder="Enter ICU seats" />
+                    <span asp-validation-for="ICUSeats" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="WardSeats" class="form-label"></label>
+                    <input asp-for="WardSeats" class="form-control" placeholder="Enter ward seats" />
+                    <span asp-validation-for="WardSeats" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="NursesOnDuty" class="form-label"></label>
+                    <input asp-for="NursesOnDuty" class="form-control" placeholder="Enter nurses count" />
+                    <span asp-validation-for="NursesOnDuty" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="MedicineItems" class="form-label"></label>
+                    <input asp-for="MedicineItems" class="form-control" placeholder="Enter medicine items" />
+                    <span asp-validation-for="MedicineItems" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Ambulances" class="form-label"></label>
+                    <input asp-for="Ambulances" class="form-control" placeholder="Enter ambulances count" />
+                    <span asp-validation-for="Ambulances" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Chart Data -->
+        <div class="form-section">
+            <div class="section-header">
+                <i class="fas fa-chart-pie"></i>
+                <span>Chart Data Configuration</span>
+            </div>
+
+            <!-- Department-wise Patient Distribution -->
+            <div class="chart-data-group">
+                <h6 class="chart-data-title">Department-wise Patient Distribution</h6>
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <label asp-for="CardiologyPatients" class="form-label"></label>
+                        <input asp-for="CardiologyPatients" class="form-control" placeholder="65" />
+                        <span asp-validation-for="CardiologyPatients" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="NeurologyPatients" class="form-label"></label>
+                        <input asp-for="NeurologyPatients" class="form-control" placeholder="59" />
+                        <span asp-validation-for="NeurologyPatients" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="OrthopedicsPatients" class="form-label"></label>
+                        <input asp-for="OrthopedicsPatients" class="form-control" placeholder="80" />
+                        <span asp-validation-for="OrthopedicsPatients" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="PediatricsPatients" class="form-label"></label>
+                        <input asp-for="PediatricsPatients" class="form-control" placeholder="48" />
+                        <span asp-validation-for="PediatricsPatients" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="GeneralPatients" class="form-label"></label>
+                        <input asp-for="GeneralPatients" class="form-control" placeholder="72" />
+                        <span asp-validation-for="GeneralPatients" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bed Occupancy Status -->
+            <div class="chart-data-group">
+                <h6 class="chart-data-title">Bed Occupancy Status</h6>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label asp-for="OccupiedBeds" class="form-label"></label>
+                        <input asp-for="OccupiedBeds" class="form-control" placeholder="168" />
+                        <span asp-validation-for="OccupiedBeds" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="AvailableBedsChart" class="form-label"></label>
+                        <input asp-for="AvailableBedsChart" class="form-control" placeholder="156" />
+                        <span asp-validation-for="AvailableBedsChart" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="MaintenanceBeds" class="form-label"></label>
+                        <input asp-for="MaintenanceBeds" class="form-control" placeholder="26" />
+                        <span asp-validation-for="MaintenanceBeds" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Patient Admissions -->
+            <div class="chart-data-group">
+                <h6 class="chart-data-title">Monthly Patient Admissions Trend</h6>
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <label asp-for="JanAdmissions" class="form-label"></label>
+                        <input asp-for="JanAdmissions" class="form-control" placeholder="250" />
+                        <span asp-validation-for="JanAdmissions" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="FebAdmissions" class="form-label"></label>
+                        <input asp-for="FebAdmissions" class="form-control" placeholder="290" />
+                        <span asp-validation-for="FebAdmissions" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="MarAdmissions" class="form-label"></label>
+                        <input asp-for="MarAdmissions" class="form-control" placeholder="310" />
+                        <span asp-validation-for="MarAdmissions" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="AprAdmissions" class="form-label"></label>
+                        <input asp-for="AprAdmissions" class="form-control" placeholder="280" />
+                        <span asp-validation-for="AprAdmissions" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="MayAdmissions" class="form-label"></label>
+                        <input asp-for="MayAdmissions" class="form-control" placeholder="340" />
+                        <span asp-validation-for="MayAdmissions" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="JunAdmissions" class="form-label"></label>
+                        <input asp-for="JunAdmissions" class="form-control" placeholder="324" />
+                        <span asp-validation-for="JunAdmissions" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medicine Stock Distribution -->
+            <div class="chart-data-group">
+                <h6 class="chart-data-title">Medicine Stock Distribution</h6>
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <label asp-for="Antibiotics" class="form-label"></label>
+                        <input asp-for="Antibiotics" class="form-control" placeholder="320" />
+                        <span asp-validation-for="Antibiotics" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="PainRelief" class="form-label"></label>
+                        <input asp-for="PainRelief" class="form-control" placeholder="280" />
+                        <span asp-validation-for="PainRelief" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="Vitamins" class="form-label"></label>
+                        <input asp-for="Vitamins" class="form-control" placeholder="195" />
+                        <span asp-validation-for="Vitamins" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="EmergencyDrugs" class="form-label"></label>
+                        <input asp-for="EmergencyDrugs" class="form-control" placeholder="250" />
+                        <span asp-validation-for="EmergencyDrugs" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="OtherMedicines" class="form-label"></label>
+                        <input asp-for="OtherMedicines" class="form-control" placeholder="200" />
+                        <span asp-validation-for="OtherMedicines" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+            <a asp-action="Index" asp-controller="Dashboard" class="btn btn-secondary">
+                <i class="fas fa-times me-2"></i>Cancel
+            </a>
+            <button type="submit" class="btn btn-gradient">
+                <i class="fas fa-save me-2"></i>Save Dashboard Data
+            </button>
+        </div>
+    </form>
+</div>

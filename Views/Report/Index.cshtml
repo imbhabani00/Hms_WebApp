@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="container-fluid px-4 py-5">
+    <!-- Page Header Card -->
+    <div class="card shadow-lg">
+        <div class="card-body p-5">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="d-flex align-items-center mb-3 mb-md-0">
+                        <div class="bg-gradient-primary text-white rounded-circle p-3 me-3 shadow-sm" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-file-medical fa-lg"></i>
+                        </div>
+                        <div>
+                            <h2 class="mb-1 text-dark fw-bold">Hospital Reports</h2>
+                            <p class="mb-0 text-muted">Generate insights, analytics and performance reports</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <button class="btn btn-primary btn-lg shadow-lg px-4" onclick="generateReport()">
+                        <i class="fas fa-download me-2"></i>
+                        Generate Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search & Filter Card -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-body p-4">
+            <div class="row align-items-end g-3">
+                <div class="col-lg-5">
+                    <label class="form-label fw-semibold text-muted mb-2">Search Reports</label>
+                    <div class="position-relative">
+                        <i class="fas fa-search text-muted position-absolute start-0 top-50 translate-middle-y ms-3"></i>
+                        <input type="text" id="reportSearch" class="form-control form-control-lg ps-5"
+                               placeholder="Search reports by title, date, type...">
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold text-muted mb-2">Report Type</label>
+                            <select id="reportTypeFilter" class="form-select form-select-lg">
+                                <option value="">All Reports</option>
+                                <option value="patient">Patient Reports</option>
+                                <option value="doctor">Doctor Reports</option>
+                                <option value="financial">Financial Reports</option>
+                                <option value="department">Department Reports</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold text-muted mb-2 d-block">Items per page:</label>
+                            <select id="ItemsPerPageReportList" class="form-select form-select-lg">
+                                <option value="10">10</option>
+                                <option value="25" selected>25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="hidden" id="hdn_ReportPage" value="1" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports List Card -->
+    <div class="card shadow-lg mt-4">
+        <div class="card-header bg-transparent border-0 pb-0">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold text-dark">
+                    <i class="fas fa-list me-2 text-primary"></i>
+                    All Reports
+                </h5>
+                <span class="badge bg-primary rounded-pill px-3 py-2">Loading...</span>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div id="reportListDiv" class="position-relative">
+                <!-- Loading state -->
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h5 class="text-muted">Loading reports...</h5>
+                    <p class="text-muted">Please wait while we fetch the latest reports</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/report/index.js"></script>

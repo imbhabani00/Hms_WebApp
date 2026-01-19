@@ -15,14 +15,16 @@
         public string? RefreshToken { get; set; }
         public string? Email { get; set; }
         public DateTime? Expires { get; set; }
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public int? RoleId { get; set; }
         public string? RoleName { get; set; }
-        public int? TenantId { get; set; }
+        public int TenantId { get; set; }
         public int StatusCode { get; set; }
         public string? Message { get; set; }
         public string? ErrorMessage { get; set; }
+        public string? AccessCode { get; set; }
+        public string? RoleCode { get; set; }
     }
 }

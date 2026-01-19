@@ -13,6 +13,9 @@
     <link href="~/lib/fontawesome/css/all.min.css" rel="stylesheet" />
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/css/account/login.css" rel="stylesheet" />
+    <link href="~/lib/toaster/toastr.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/toaster/toastr.min.js"></script>
 </head>
 <body>
     <div class="login-container">
@@ -27,14 +30,15 @@
 
             <div class="login-body">
                 <form id="twoFactorForm">
-                    <input type="hidden" id="token" value="@Model.Token" />
-                    <input type="hidden" id="email" value="@Model.Email" />
+                    <input type="hidden" id="token" asp-for="Token" />
+                    <input type="hidden" id="email" asp-for="Email" />
 
                     <div class="mb-3">
                         <label class="form-label">
                             <i class="fas fa-key me-1"></i> Access Code
                         </label>
                         <input type="text"
+                            asp-for="AccessCode"
                                id="accessCode"
                                class="form-control text-center"
                                placeholder="000000"
@@ -44,7 +48,7 @@
                         <span class="text-danger" id="accessCodeError"></span>
                     </div>
 
-                    <div class="alert alert-info">
+                    <div class="alert alert-info" id="validTime">
                         <i class="fas fa-info-circle me-2"></i>
                         Code valid for <strong>@Model.TimeValid seconds</strong>
                     </div>
@@ -66,6 +70,7 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="~/js/common.js"></script>
 </body>
 </html>

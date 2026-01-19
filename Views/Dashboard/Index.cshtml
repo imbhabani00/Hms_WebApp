@@ -1,0 +1,722 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<!-- Custom CSS -->
+<style>
+    :root {
+        --primary-gradient-start: #667eea;
+        --primary-gradient-end: #764ba2;
+        --purple-accent: #6f42c1;
+        --light-blue: #e8f4f8;
+        --dark-blue: #2c3e50;
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.95), rgba(118, 75, 162, 0.95)), url('https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?w=1200') center/cover;
+        color: white;
+        padding: 80px 40px;
+        border-radius: 20px;
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-content h1 {
+        font-size: 48px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        line-height: 1.2;
+    }
+
+    .hero-content p {
+        font-size: 18px;
+        opacity: 0.95;
+        max-width: 600px;
+        line-height: 1.6;
+    }
+
+    .hero-stats {
+        display: flex;
+        gap: 30px;
+        margin-top: 40px;
+        flex-wrap: wrap;
+    }
+
+    .hero-stat-item {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        padding: 20px 30px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-stat-number {
+        font-size: 36px;
+        font-weight: 700;
+        display: block;
+    }
+
+    .hero-stat-label {
+        font-size: 14px;
+        opacity: 0.9;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .hero-image {
+        position: absolute;
+        right: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 400px;
+        height: 400px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        display: none;
+    }
+
+    media (min-width: 992px) {
+        .hero-image {
+            display: block;
+        }
+
+        .hero-content {
+            max-width: 50%;
+        }
+    }
+
+    .hero-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .team-badge {
+        background: white;
+        padding: 15px 25px;
+        border-radius: 50px;
+        display: inline-flex;
+        align-items: center;
+        gap: 15px;
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .team-avatars {
+        display: flex;
+        margin-right: 10px;
+    }
+
+        .team-avatars img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 3px solid white;
+            margin-left: -10px;
+        }
+
+            .team-avatars img:first-child {
+                margin-left: 0;
+            }
+
+    .team-text {
+        color: var(--purple-accent);
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    /* About Section */
+    .about-section {
+        background: white;
+        padding: 60px 40px;
+        border-radius: 20px;
+        margin-bottom: 40px;
+        box-shadow: var(--card-shadow);
+    }
+
+    .about-header {
+        color: var(--purple-accent);
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+    }
+
+    .about-title {
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--dark-blue);
+        margin-bottom: 20px;
+        max-width: 500px;
+    }
+
+    .about-description {
+        color: #6c757d;
+        line-height: 1.8;
+        max-width: 600px;
+    }
+
+    .about-image {
+        width: 100%;
+        height: 300px;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(111, 66, 193, 0.2);
+    }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    /* Statistics Cards Section */
+    .stats-section {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        margin-bottom: 40px;
+        box-shadow: var(--card-shadow);
+    }
+
+    .section-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--dark-blue);
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        border: 2px solid rgba(111, 66, 193, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(111, 66, 193, 0.15);
+            border-color: var(--purple-accent);
+        }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    .stat-number {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--purple-accent);
+        margin: 10px 0;
+    }
+
+    .stat-label {
+        color: #6c757d;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    /* Departments Section */
+    .departments-section {
+        background: white;
+        padding: 60px 40px;
+        border-radius: 20px;
+        margin-bottom: 40px;
+        box-shadow: var(--card-shadow);
+    }
+
+    .departments-header {
+        color: var(--purple-accent);
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .departments-title {
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--dark-blue);
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .department-card {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 30px 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+        height: 100%;
+        cursor: pointer;
+    }
+
+        .department-card:hover {
+            border-color: var(--purple-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(111, 66, 193, 0.15);
+        }
+
+        .department-card.active {
+            background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+            border-color: var(--purple-accent);
+            color: white;
+        }
+
+    .department-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        color: var(--purple-accent);
+    }
+
+    .department-card.active .department-icon {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+
+    .department-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--dark-blue);
+        margin-bottom: 5px;
+    }
+
+    .department-card.active .department-name {
+        color: white;
+    }
+
+    .department-subtitle {
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .department-card.active .department-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Charts Section */
+    .charts-section {
+        margin-bottom: 40px;
+    }
+
+    .chart-container {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 30px;
+        min-height: 400px;
+    }
+
+    .chart-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--dark-blue);
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid var(--purple-accent);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .chart-icon {
+        color: var(--purple-accent);
+    }
+</style>
+
+<div class="container-fluid px-4">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="team-badge">
+            <div class="team-avatars">
+                <img src="https://i.pravatar.cc/150?img=1" alt="Doctor 1">
+                <img src="https://i.pravatar.cc/150?img=2" alt="Doctor 2">
+                <img src="https://i.pravatar.cc/150?img=3" alt="Doctor 3">
+            </div>
+            <div>
+                <div class="team-text">150K+</div>
+                <small style="color: #6c757d;">Medical Experts</small>
+            </div>
+        </div>
+
+        <div class="hero-content">
+            <h1>Compassionate care,<br>exceptional results.</h1>
+            <p>Our team of experienced doctors and healthcare professionals are committed to providing you with the highest quality medical care in a comfortable and supportive environment.</p>
+
+            <div class="hero-stats">
+                <div class="hero-stat-item">
+                    <span class="hero-stat-number">20+</span>
+                    <span class="hero-stat-label">Years Experience</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-number">95%</span>
+                    <span class="hero-stat-label">Patient Satisfaction</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-number">5,000+</span>
+                    <span class="hero-stat-label">Patients Served</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-number">10+</span>
+                    <span class="hero-stat-label">Departments</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600" alt="Medical Team">
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="about-section">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="about-header">ABOUT US</div>
+                <h2 class="about-title">Hospital Management is a team of experienced medical professionals</h2>
+                <p class="about-description">
+                    We provide a comprehensive suite of services and innovative solutions to healthcare institutions. Our cutting-edge technology enables better patient care, efficient operations, and improved healthcare delivery. With over 20 years of experience in the medical field, our team is dedicated to excellence in healthcare management.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800" alt="Medical Team">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-section">
+        <h3 class="section-title">Hospital Statistics Overview</h3>
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-user-md"></i></div>
+                    <div class="stat-number">48</div>
+                    <div class="stat-label">Total Doctors</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-procedures"></i></div>
+                    <div class="stat-number">324</div>
+                    <div class="stat-label">Total Patients</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-bed"></i></div>
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Available Beds</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="stat-number">24</div>
+                    <div class="stat-label">ICU Seats</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-hospital"></i></div>
+                    <div class="stat-number">132</div>
+                    <div class="stat-label">Ward Seats</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-user-nurse"></i></div>
+                    <div class="stat-number">96</div>
+                    <div class="stat-label">Nurses On Duty</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-pills"></i></div>
+                    <div class="stat-number">1,245</div>
+                    <div class="stat-label">Medicine Items</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-ambulance"></i></div>
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Ambulances</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Departments Section -->
+    <div class="departments-section">
+        <div class="departments-header">OUR DEPARTMENTS</div>
+        <h2 class="departments-title">For Your Health</h2>
+
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="department-card">
+                    <div class="department-icon"><i class="fas fa-ambulance"></i></div>
+                    <div class="department-name">Emergency</div>
+                    <div class="department-subtitle">Department</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="department-card active">
+                    <div class="department-icon"><i class="fas fa-baby"></i></div>
+                    <div class="department-name">Pediatric</div>
+                    <div class="department-subtitle">Department</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="department-card">
+                    <div class="department-icon"><i class="fas fa-female"></i></div>
+                    <div class="department-name">Obstetrics and Gynecology</div>
+                    <div class="department-subtitle">Department</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="department-card">
+                    <div class="department-icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="department-name">Cardiology</div>
+                    <div class="department-subtitle">Department</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="department-card">
+                    <div class="department-icon"><i class="fas fa-brain"></i></div>
+                    <div class="department-name">Neurology</div>
+                    <div class="department-subtitle">Department</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="department-card">
+                    <div class="department-icon"><i class="fas fa-head-side-virus"></i></div>
+                    <div class="department-name">Psychiatry</div>
+                    <div class="department-subtitle">Department</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="chart-container">
+                    <h5 class="chart-title">
+                        <i class="fas fa-chart-bar chart-icon"></i>
+                        Department-wise Patient Distribution
+                    </h5>
+                    <canvas id="patientChart"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="chart-container">
+                    <h5 class="chart-title">
+                        <i class="fas fa-chart-pie chart-icon"></i>
+                        Bed Occupancy Status
+                    </h5>
+                    <canvas id="bedChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="chart-container">
+                    <h5 class="chart-title">
+                        <i class="fas fa-chart-line chart-icon"></i>
+                        Monthly Patient Admissions Trend
+                    </h5>
+                    <canvas id="admissionChart"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="chart-container">
+                    <h5 class="chart-title">
+                        <i class="fas fa-chart-area chart-icon"></i>
+                        Medicine Stock Distribution
+                    </h5>
+                    <canvas id="medicineChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<script>
+    // Chart Colors matching your theme
+    const primaryColor = '#667eea';
+    const secondaryColor = '#764ba2';
+    const purpleAccent = '#6f42c1';
+
+    const chartColors = [
+        'rgba(102, 126, 234, 0.8)',
+        'rgba(118, 75, 162, 0.8)',
+        'rgba(111, 66, 193, 0.8)',
+        'rgba(102, 126, 234, 0.6)',
+        'rgba(118, 75, 162, 0.6)'
+    ];
+
+    // Bar Chart - Patient Distribution
+    const patientCtx = document.getElementById('patientChart').getContext('2d');
+    new Chart(patientCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Cardiology', 'Neurology', 'Orthopedics', 'Pediatrics', 'General'],
+            datasets: [{
+                label: 'Number of Patients',
+                data: [65, 59, 80, 48, 72],
+                backgroundColor: chartColors,
+                borderColor: purpleAccent,
+                borderWidth: 2,
+                borderRadius: 10
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(0,0,0,0.05)' }
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+
+    // Pie Chart - Bed Occupancy
+    const bedCtx = document.getElementById('bedChart').getContext('2d');
+    new Chart(bedCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Occupied', 'Available', 'Under Maintenance'],
+            datasets: [{
+                data: [168, 156, 26],
+                backgroundColor: chartColors.slice(0, 3),
+                borderColor: '#fff',
+                borderWidth: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { padding: 20, font: { size: 13 } }
+                }
+            }
+        }
+    });
+
+    // Line Chart - Monthly Admissions
+    const admissionCtx = document.getElementById('admissionChart').getContext('2d');
+    new Chart(admissionCtx, {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [{
+                label: 'Admissions',
+                data: [250, 290, 310, 280, 340, 324],
+                borderColor: purpleAccent,
+                backgroundColor: 'rgba(111, 66, 193, 0.1)',
+                tension: 0.4,
+                fill: true,
+                pointBackgroundColor: purpleAccent,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 3,
+                pointRadius: 6,
+                pointHoverRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(0,0,0,0.05)' }
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+
+    // Polar Area Chart - Medicine Stock
+    const medicineCtx = document.getElementById('medicineChart').getContext('2d');
+    new Chart(medicineCtx, {
+        type: 'polarArea',
+        data: {
+            labels: ['Antibiotics', 'Pain Relief', 'Vitamins', 'Emergency Drugs', 'Others'],
+            datasets: [{
+                data: [320, 280, 195, 250, 200],
+                backgroundColor: chartColors,
+                borderColor: '#fff',
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { padding: 20, font: { size: 13 } }
+                }
+            }
+        }
+    });
+</script>

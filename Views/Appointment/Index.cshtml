@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Appointments";
+}
+
+<div class="container-fluid px-4 py-5">
+    <!-- Page Header Card -->
+    <div class="card shadow-lg">
+        <div class="card-body p-5">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="d-flex align-items-center mb-3 mb-md-0">
+                        <div class="bg-gradient-primary text-white rounded-circle p-3 me-3 shadow-sm" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-calendar-check fa-lg"></i>
+                        </div>
+                        <div>
+                            <h2 class="mb-1 text-dark fw-bold">Appointment Management</h2>
+                            <p class="mb-0 text-muted">Manage patient appointments, schedules and bookings</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <a href="/Appointment/Add" class="btn btn-primary btn-lg shadow-lg px-4">
+                        <i class="fas fa-plus me-2"></i>
+                        Schedule New Appointment
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search & Controls Card -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-body p-4">
+            <div class="row align-items-end g-3">
+                <div class="col-lg-8">
+                    <label class="form-label fw-semibold text-muted mb-2">Search Appointments</label>
+                    <div class="position-relative">
+                        <i class="fas fa-search text-muted position-absolute start-0 top-50 translate-middle-y ms-3"></i>
+                        <input type="text" id="appointmentSearch" class="form-control form-control-lg ps-5"
+                               placeholder="Search by patient, doctor, date, status...">
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="form-label fw-semibold text-muted mb-2 d-block">Items per page:</label>
+                            <select id="ItemsPerPageAppointmentList" class="form-select form-select-lg">
+                                <option value="10">10</option>
+                                <option value="25" selected>25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <input type="hidden" id="hdn_AppointmentPage" value="1" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointments List Card -->
+    <div class="card shadow-lg mt-4">
+        <div class="card-header bg-transparent border-0 pb-0">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold text-dark">
+                    <i class="fas fa-list me-2 text-primary"></i>
+                    All Appointments
+                </h5>
+                <span class="badge bg-primary rounded-pill px-3 py-2">Loading...</span>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div id="appointmentListDiv" class="position-relative">
+                <!-- Loading state -->
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h5 class="text-muted">Loading appointments...</h5>
+                    <p class="text-muted">Please wait while we fetch the latest appointment records</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/appointment/index.js"></script>

@@ -13,9 +13,9 @@ namespace Hms.WebApp.Services
     {
         Task<AuthResponseModel> GetAccessToken(AuthModel authModel);
         Task<List<PermissionModel>> GetAllPermissions();
-        Task<int> ValidateTenant(string tenantName);
+        //Task<int> ValidateTenant(string tenantName);
         Task<AuthResponseModel> GetRefreshToken(RefreshTokenModel refreshTokenModel);
-        Task<AuthResponseModel> GetAccessTokenWithValidation(string token);
+        //Task<AuthResponseModel> GetAccessTokenWithValidation(string token);
     }
     #endregion
 
@@ -143,65 +143,65 @@ namespace Hms.WebApp.Services
         }
         #endregion
 
-        #region ValidateTenante
-        public async Task<int> ValidateTenant(string tenantName)
-        {
-            int authResponseModel = -1;
-            try
-            {
-                string accessTokenEndpoint = $"{HmsApiUrl}/api/v{HmsApiVersion}/token/validate-tenant?tenantName={tenantName}";
-                var response = await DoHttpGet(accessTokenEndpoint, null);
-                response.EnsureSuccessStatusCode();
+        //#region ValidateTenante
+        //public async Task<int> ValidateTenant(string tenantName)
+        //{
+        //    int authResponseModel = -1;
+        //    try
+        //    {
+        //        string accessTokenEndpoint = $"{HmsApiUrl}/api/v{HmsApiVersion}/token/validate-tenant?tenantName={tenantName}";
+        //        var response = await DoHttpGet(accessTokenEndpoint, null);
+        //        response.EnsureSuccessStatusCode();
 
-                var content = await response.Content.ReadAsStringAsync();
-                var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(content);
+        //        var content = await response.Content.ReadAsStringAsync();
+        //        var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(content);
 
-                if (apiResponse != null &&
-                    apiResponse.Response != null &&
-                    apiResponse.StatusCode == 200)
-                {
-                    authResponseModel = JsonConvert.DeserializeObject<int>(apiResponse.Response.ToString());
-                }
-                else
-                {
-                    Log.Logger.Error("Problem in executing the validate Tenant Call in TokenService: {Message}", apiResponse.Message);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Logger.Error("Problem in executing the ValidateTenant in Service: {Message}", ex.Message);
-            }
-            return authResponseModel;
-        }
-        #endregion
+        //        if (apiResponse != null &&
+        //            apiResponse.Response != null &&
+        //            apiResponse.StatusCode == 200)
+        //        {
+        //            authResponseModel = JsonConvert.DeserializeObject<int>(apiResponse.Response.ToString());
+        //        }
+        //        else
+        //        {
+        //            Log.Logger.Error("Problem in executing the validate Tenant Call in TokenService: {Message}", apiResponse.Message);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Logger.Error("Problem in executing the ValidateTenant in Service: {Message}", ex.Message);
+        //    }
+        //    return authResponseModel;
+        //}
+        //#endregion
 
-        #region GetAccessTokenWithValidation
-        public async Task<AuthResponseModel> GetAccessTokenWithValidation(string token)
-        {
-            var tokenResponse = new AuthResponseModel();
-            try
-            {
-                // This just validates the token and returns user info
-                string endpoint = $"{HmsApiUrl}/api/v{HmsApiVersion}/token/validate-token";
+        //#region GetAccessTokenWithValidation
+        //public async Task<AuthResponseModel> /*GetAccessTokenWithValidation*/(string token)
+        //{
+        //    var tokenResponse = new AuthResponseModel();
+        //    try
+        //    {
+        //        // This just validates the token and returns user info
+        //        string endpoint = $"{HmsApiUrl}/api/v{HmsApiVersion}/token/validate-token";
 
-                var request = new { Token = token };
-                var response = await DoHttpPost(endpoint, request, token);
-                response.EnsureSuccessStatusCode();
+        //        var request = new { Token = token };
+        //        var response = await DoHttpPost(endpoint, request, token);
+        //        response.EnsureSuccessStatusCode();
 
-                var content = await response.Content.ReadAsStringAsync();
-                var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(content);
+        //        var content = await response.Content.ReadAsStringAsync();
+        //        var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(content);
 
-                if (apiResponse != null && apiResponse.StatusCode == 200)
-                {
-                    tokenResponse = JsonConvert.DeserializeObject<AuthResponseModel>(apiResponse.Response.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Logger.Error("Token validation failed: {Message}", ex.Message);
-            }
-            return tokenResponse;
-        }
-        #endregion
+        //        if (apiResponse != null && apiResponse.StatusCode == 200)
+        //        {
+        //            tokenResponse = JsonConvert.DeserializeObject<AuthResponseModel>(apiResponse.Response.ToString());
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Logger.Error("Token validation failed: {Message}", ex.Message);
+        //    }
+        //    return tokenResponse;
+        //}
+        //#endregion
     }
 }

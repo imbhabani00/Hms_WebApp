@@ -6,7 +6,7 @@ namespace Hms.WebApp.Services
 {
     public interface IRolePermissionService
     {
-        Task<RolePermissionResponse> GetUsersPermission(string token);
+        Task<RolePermissionResponse> GetUsersPermission(int userId, int tenantId, string accessToken);
     }
 
     public class RolePermissionService : BaseService, IRolePermissionService
@@ -21,7 +21,7 @@ namespace Hms.WebApp.Services
             _logger = logger;
         }
 
-        public async Task<RolePermissionResponse> GetUsersPermission(string accessToken)
+        public async Task<RolePermissionResponse> GetUsersPermission(int userId, int tenantId,string accessToken)
         {
             var rolepermission = new RolePermissionResponse();
             try

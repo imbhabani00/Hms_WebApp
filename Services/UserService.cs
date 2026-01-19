@@ -12,7 +12,7 @@ namespace Hms.WebApp.Services
         Task<int> UpdateAccessCode(string token);
         Task<ApiResponse> UpdateUserLogoutStatus();
         Task<ApiResponse> RegisterAsync(RegisterViewModel registerViewModel);
-        Task<ApiResponse> ValidateAccessCode(string token, string accessCode);
+        Task<ApiResponse<AuthResponseModel>> ValidateAccessCode(string token, string accessCode);
     }
     #endregion
 
@@ -112,16 +112,16 @@ namespace Hms.WebApp.Services
             }
             catch (Exception ex)
             {
-                Log.Logger.Error("Failed to save user in user service.{Message}",ex.Message);
+                Log.Logger.Error("Failed to save user in user service.{Message}", ex.Message);
             }
             return apiResponse!;
         }
         #endregion
 
         #region ValidateAccessCode
-        public async Task<ApiResponse> ValidateAccessCode(string token, string accessCode)
+        public async Task<ApiResponse<AuthResponseModel>> ValidateAccessCode(string token, string accessCode)
         {
-            var apiResponse = new ApiResponse();
+            var apiResponse = new ApiResponse<AuthResponseModel>();
             try
             {
                 string endpoint = $"{HmsApiUrl}/api/v{HmsApiVersion}/user/validate-access-code?accessCode={accessCode}";
@@ -131,7 +131,7 @@ namespace Hms.WebApp.Services
                 var content = await response.Content.ReadAsStringAsync();
                 if (!string.IsNullOrEmpty(content))
                 {
-                    apiResponse = JsonConvert.DeserializeObject<ApiResponse>(content);
+                    apiResponse = JsonConvert.DeserializeObject<ApiResponse<AuthResponseModel>>(content);
                 }
             }
             catch (Exception ex)

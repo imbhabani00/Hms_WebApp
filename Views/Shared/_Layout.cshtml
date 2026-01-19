@@ -55,88 +55,90 @@
             <nav class="sidebar-nav">
                 <ul class="nav-list">
                     @using Hms.WebApp.Constants
-@using Hms.WebApp.Models.RolesPermissions
+                    @using Hms.WebApp.Models.RolesPermissions
                     @{
                         var permissions = ViewBag.Permissions as PermissionsViewModel;
                     }
 
                     @* Dashboard *@
-                    @if (permissions?.CanAccessDashboard == true)
-                    {
-                        <li class="nav-item">
-                            <a href="/Dashboard/Index" class="nav-link" data-page="Dashboard">
-                                <div class="nav-icon">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                                <span class="nav-text">Dashboard</span>
-                            </a>
-                        </li>
-                    }
-
+                    @* @if (permissions?.CanAccessDashboard == true)
+                    { *@
+                    <li class="nav-item">
+                        <a href="/Dashboard/Index" class="nav-link" data-page="Dashboard" data-tooltip="Dashboard" 
+                           style="display: flex; align-items: center; gap: 8px;">
+                            <div class="nav-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    @*                     }
+ *@
                     @* Patients *@
-                    @if (permissions?.CanAccessPatients == true)
-                    {
-                        <li class="nav-item">
-                            <a href="/Patient/Index" class="nav-link" data-page="Patient">
-                                <div class="nav-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <span class="nav-text">Patients</span>
-                            </a>
-                        </li>
-                    }
+                    <li class="nav-item">
+                        <a href="/Patient/Index" class="nav-link" data-page="Patient"
+                        style="display: flex; align-items: center; gap: 8px;">
+                            <div class="nav-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span class="nav-text">Patients</span>
+                        </a>
+                    </li>
+
 
                     @* Appointments *@
-                    @if (permissions?.CanAccessAppointments == true)
-                    {
-                        <li class="nav-item">
-                            <a href="/Appointment/Index" class="nav-link" data-page="Appointment">
-                                <div class="nav-icon">
-                                    <i class="fas fa-calendar-check"></i>
-                                </div>
-                                <span class="nav-text">Appointments</span>
-                            </a>
-                        </li>
-                    }
+                    <li class="nav-item">
+                        <a href="/Appointment/Index" class="nav-link" data-page="Appointment"
+                           style="display: flex; align-items: center; gap: 8px;">
+                            <div class="nav-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <span class="nav-text">Appointments</span>
+                        </a>
+                    </li>
 
                     @* Doctors *@
-                    @if (permissions?.CanAccessDoctors == true)
-                    {
-                        <li class="nav-item">
-                            <a href="/Doctor/Index" class="nav-link" data-page="Doctor">
-                                <div class="nav-icon">
-                                    <i class="fas fa-user-md"></i>
-                                </div>
-                                <span class="nav-text">Doctors</span>
-                            </a>
-                        </li>
-                    }
+                    <li class="nav-item">
+                        <a href="/Doctor/Index" class="nav-link" data-page="Doctor"
+                           style="display: flex; align-items: center; gap: 8px;">
+                            <div class="nav-icon">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <span class="nav-text">Doctors</span>
+                        </a>
+                    </li>
+
+                    @* Nurses *@
+                    <li class="nav-item">
+                        <a href="/Nurse/Index" class="nav-link" data-page="Nurse" style="display: flex; align-items: center; gap: 8px;">
+                            <div class="nav-icon">
+                                <i class="fas fa-user-nurse"></i>
+                            </div>
+                            <span class="nav-text">Nurses</span>
+                        </a>
+                    </li>
 
                     @* Departments *@
-                    @if (permissions?.CanAccessDepartments == true)
-                    {
-                        <li class="nav-item">
-                            <a href="/Department/Index" class="nav-link" data-page="Department">
-                                <div class="nav-icon">
-                                    <i class="fas fa-building"></i>
-                                </div>
-                                <span class="nav-text">Departments</span>
-                            </a>
-                        </li>
-                    }
+                    <li class="nav-item">
+                        <a href="/Department/Index" class="nav-link" data-page="Department"
+                           style="display: flex; align-items: center; gap: 8px;">
+                            <div class="nav-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <span class="nav-text">Departments</span>
+                        </a>
+                    </li>
 
                     @* Reports *@
-                    @if (permissions?.CanAccessReports == true)
-                    {
-                        <li class="nav-item">
-                            <a href="/Report/Index" class="nav-link" data-page="Report">
-                                <div class="nav-icon">
-                                    <i class="fas fa-file-medical"></i>
-                                </div>
-                                <span class="nav-text">Reports</span>
-                            </a>
-                        </li>
-                    }
+                    <li class="nav-item">
+                        <a href="/Report/Index" class="nav-link" data-page="Report"
+                           style="display: flex; align-items: center; gap: 8px;">
+                            <div class="nav-icon">
+                                <i class="fas fa-file-medical"></i>
+                            </div>
+                            <span class="nav-text">Reports</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 

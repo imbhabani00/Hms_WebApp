@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hms.WebApp.Controllers
 {
-    public class RolePermissionController : BaseController
+    public class ReportController : BaseController
     {
+
         #region Properties
         private readonly ICookieHelper _cookieHelper;
         private readonly ITokenService _tokenService;
@@ -15,7 +16,7 @@ namespace Hms.WebApp.Controllers
         #endregion
 
         #region Constructor
-        public RolePermissionController(
+        public ReportController(
             IConfiguration config,
             ITokenService tokenService,
             ICookieHelper cookieHelper,

@@ -192,44 +192,42 @@ namespace YourProject.WebApp.Controllers
             try
             {
                 var response = await _userService.ValidateAccessCode(model.Token, model.AccessCode);
-
                 if (response.StatusCode == 200 && response.Response != null)
                 {
                     var userData = JsonConvert.DeserializeObject<AuthResponseModel>(
                         response.Response.ToString()
                     );
-
                     var userId = userData.UserId;
                     var tenantId = userData.TenantId;
                     var roleCode = userData.RoleCode;
                     var token = userData.Token;
                     var refreshToken = userData.RefreshToken;
-
                     var concatenatedPermissions = new StringBuilder();
+
                     var permissions = await _rolePermissionsService.GetUsersPermission(userId, tenantId, token);
 
                     if (permissions?.RolePermissions?.Count > 0)
                     {
-                        foreach (var permission in permissions.RolePemission.Where(p => p.HasPermission))
+                        // Use the properly typed collection - no casting needed
+                        foreach (var permission in permissions.RolePermissions.Where(p => p.HasPermission))
                         {
                             concatenatedPermissions.Append($"{permission.PermissionCode.ToUpper()},");
                         }
 
-                        _httpContextAccessor.HttpContext.Session.SetString(
-                            "UserPermissions",
-                            concatenatedPermissions.ToString().TrimEnd(',')
-                        );
-                        _httpContextAccessor.HttpContext.Session.SetInt32("UserId", userId);
-                        _httpContextAccessor.HttpContext.Session.SetInt32("TenantId", tenantId);
-                        _httpContextAccessor.HttpContext.Session.SetString("RoleCode", roleCode);
-                        _httpContextAccessor.HttpContext.Session.SetString("UserName", $"{userData.FirstName} {userData.LastName}");
+                        // Store session in a variable to avoid dynamic dispatch
+                        var session = HttpContext.Session;
+
+                        session.SetString("UserPermissions", concatenatedPermissions.ToString().TrimEnd(','));
+                        session.SetInt32("UserId", userId);
+                        session.SetInt32("TenantId", tenantId);
+                        session.SetString("RoleCode", roleCode);
+                        session.SetString("UserName", $"{userData.FirstName} {userData.LastName}");
                     }
 
                     await _cookieHelper.SignInAsyncWithCookie(token, refreshToken, HttpContext);
                     _cookieHelper.SetCookie(userData, HttpContext);
 
                     var returnURL = DetermineRedirectUrl(permissions, roleCode);
-
                     return Json(new { success = true, redirectUrl = returnURL });
                 }
 

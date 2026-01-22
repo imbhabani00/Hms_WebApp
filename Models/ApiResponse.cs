@@ -7,7 +7,7 @@
         public int StatusCode { get; set; }
         public object? Data { get; set; }
         public string? ErrorMessage { get; set; }
-        public dynamic? Response { get; set; }
+        public object? Response { get; set; }
         public bool Status { get; set; }
     }
     public class ApiResponse<T> : ApiResponse

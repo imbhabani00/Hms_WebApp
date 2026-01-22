@@ -2,6 +2,8 @@
 using Hms.WebApp.Models.Account;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Serilog;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Hms.WebApp.Helper
@@ -19,18 +21,59 @@ namespace Hms.WebApp.Helper
 
         public async Task SignInAsyncWithCookie(string token, string refreshToken, HttpContext context)
         {
-            var claims = new List<Claim>
-        {
-            new Claim("Token", token),
-            new Claim("RefreshToken", refreshToken ?? "")
-        };
+            try
+            {
+                // Disable default claim type mapping
+                JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(claimsIdentity);
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(token);
+                var claims = jwtToken.Claims.ToList();
 
-            await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                // Ensure NameIdentifier exists
+                if (!claims.Any(c => c.Type == ClaimTypes.NameIdentifier))
+                {
+                    var subClaim = claims.FirstOrDefault(c => c.Type == "sub" || c.Type == "nameid");
+                    if (subClaim != null)
+                    {
+                        claims.Add(new Claim(ClaimTypes.NameIdentifier, subClaim.Value));
+                    }
+                }
+
+                claims.Add(new Claim("Token", token));
+                claims.Add(new Claim("RefreshToken", refreshToken ?? ""));
+
+                Log.Logger.Information("SignInAsync - Total claims: {Count}", claims.Count);
+                foreach (var claim in claims)
+                {
+                    Log.Logger.Debug("Claim: {Type} = {Value}", claim.Type, claim.Value);
+                }
+
+                var claimsIdentity = new ClaimsIdentity(
+                    claims,
+                    CookieAuthenticationDefaults.AuthenticationScheme
+                );
+
+                var principal = new ClaimsPrincipal(claimsIdentity);
+
+                await context.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    principal,
+                    new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                        AllowRefresh = true
+                    }
+                );
+
+                Log.Logger.Information("User signed in successfully with JWT claims");
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex, "Error in SignInAsyncWithCookie");
+                throw;
+            }
         }
-
         public void SetCookie(AuthResponseModel response, HttpContext context)
         {
             context.Response.Cookies.Append(CookieConstants.AccessToken, response.Token, new CookieOptions

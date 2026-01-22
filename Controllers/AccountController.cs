@@ -193,10 +193,10 @@ namespace YourProject.WebApp.Controllers
             {
                 var response = await _userService.ValidateAccessCode(model.Token, model.AccessCode);
 
-                if (response.StatusCode == 200 && response.Data != null)
+                if (response.StatusCode == 200 && response.Response != null)
                 {
                     var userData = JsonConvert.DeserializeObject<AuthResponseModel>(
-                        response.Data.ToString()
+                        response.Response.ToString()
                     );
 
                     var userId = userData.UserId;
@@ -204,19 +204,17 @@ namespace YourProject.WebApp.Controllers
                     var roleCode = userData.RoleCode;
                     var token = userData.Token;
                     var refreshToken = userData.RefreshToken;
-                    var accessToken = userData.Token;
 
                     var concatenatedPermissions = new StringBuilder();
-                    var permissions = await _rolePermissionsService.GetUsersPermission(userId, tenantId, accessToken);
+                    var permissions = await _rolePermissionsService.GetUsersPermission(userId, tenantId, token);
 
                     if (permissions?.RolePermissions?.Count > 0)
                     {
-                        foreach (var permission in permissions.RolePermissions.Where(p => p.HasPermission))
+                        foreach (var permission in permissions.RolePemission.Where(p => p.HasPermission))
                         {
                             concatenatedPermissions.Append($"{permission.PermissionCode.ToUpper()},");
                         }
 
-                        // Set session
                         _httpContextAccessor.HttpContext.Session.SetString(
                             "UserPermissions",
                             concatenatedPermissions.ToString().TrimEnd(',')
@@ -227,11 +225,9 @@ namespace YourProject.WebApp.Controllers
                         _httpContextAccessor.HttpContext.Session.SetString("UserName", $"{userData.FirstName} {userData.LastName}");
                     }
 
-                    // Set cookies
                     await _cookieHelper.SignInAsyncWithCookie(token, refreshToken, HttpContext);
                     _cookieHelper.SetCookie(userData, HttpContext);
 
-                    // Redirect based on role
                     var returnURL = DetermineRedirectUrl(permissions, roleCode);
 
                     return Json(new { success = true, redirectUrl = returnURL });
@@ -239,7 +235,7 @@ namespace YourProject.WebApp.Controllers
 
                 return Json(new
                 {
-                    success = true,
+                    success = false,
                     message = response.Message ?? "Invalid or expired access code"
                 });
             }

@@ -115,6 +115,7 @@ app.UseRouting();
 
 // CRITICAL: Session MUST come BEFORE Authentication
 app.UseSession();
+app.UseAuthorization();
 
 // Custom JWT Middleware (after Session, before Authentication)
 app.UseMiddleware<JwtMiddleware>();
@@ -122,7 +123,6 @@ app.UseMiddleware<RefreshTokenMiddleware>();
 
 // Authentication & Authorization
 app.UseAuthentication();
-app.UseAuthorization();
 
 // Map controller routes
 app.MapControllerRoute(
